@@ -76,6 +76,56 @@ src/
 - 🔒 Type-safe with TypeScript
 - 🎯 ESLint for code quality
 
+## Form Generator (vd-form-generator)
+
+- Reusable form builder powered by `react-hook-form`, `class-validator`, and shadcn/ui.
+
+Install validation deps if not present:
+
+```powershell
+npm install class-validator class-transformer @hookform/resolvers
+```
+
+Example DTO:
+
+```ts
+// src/types/example.dto.ts
+import { IsString, Length } from "class-validator";
+
+export class ExampleDTO {
+  @IsString()
+  @Length(1, 50)
+  algo!: string;
+}
+```
+
+Usage:
+
+```tsx
+import { FormGenerator } from "@/components/vd-form-generator";
+import { ExampleDTO } from "@/types/example.dto";
+
+function Demo() {
+  return (
+    <FormGenerator
+      classValidator={ExampleDTO}
+      onSuccess={(data) => console.log("valid:", data)}
+      items={[
+        {
+          fieldType: "field",
+          name: "algo",
+          label: "Algo",
+          description: "Enter something",
+          controlType: "text",
+          fieldProps: { placeholder: "Type here" },
+          gridProps: { xs: 12 },
+        },
+      ]}
+    />
+  );
+}
+```
+
 ## Adding shadcn/ui Components
 
 This project is configured to work with shadcn/ui. To add new components:
@@ -85,6 +135,7 @@ npx shadcn@latest add [component-name]
 ```
 
 For example:
+
 ```bash
 npx shadcn@latest add button
 npx shadcn@latest add card
